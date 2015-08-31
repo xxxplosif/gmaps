@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>HTML5 - Geolocalisation</title>
+		<style>
+			#geoloc {
+				border: 2px solid black;
+				padding:10px;
+				color: green;
+			}
+		</style>
+		<script>
+			function positionTrouvee(position) {
+				document.getElementById("lat").innerHTML = position.coords.latitude + " °";
+				document.getElementById("long").innerHTML = position.coords.longitude + " °";
+				document.getElementById("prec").innerHTML = position.coords.accuracy + " m";
+				document.getElementById("alti").innerHTML = position.coords.altitude + " m";
+				document.getElementById("precalti").innerHTML = position.coords.altitudeAccuracy + " m";
+				document.getElementById("temps").innerHTML = new Date(position.timestamp);
+				document.getElementById("dir").innerHTML = position.coords.heading + " °";
+				document.getElementById("vit").innerHTML = position.coords.speed + " m/s";
+			}
+			
+			function erreurPosition(erreur) {
+				switch(erreur.code) {
+					case erreur.PERMISSION_DENIED:
+						alert("PERMISSION_DENIED : l'utilisateur n'a pas autorisé l'accès à sa position.");
+						break;
+					case erreur.POSITION_UNAVAILABLE:
+						alert("POSITION_UNAVAILABLE : la position n'a pas pu être déterminée.");
+						break;
+					case erreur.TIMEOUT:
+						alert("TIMEOUT : le service n'a pas répondu à temps.");
+						break;
+					case erreur.UNKNOWN_ERROR:
+						alert("UNKNOWN_ERROR : une erreur inconnue s'est produite");
+				}
+			}
+		
+			function recherchePositionOptions() {
+				navigator.geolocation.getCurrentPosition(positionTrouvee,erreurPosition,{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+			}
+		
+			function recherchePosition() {
+				navigator.geolocation.getCurrentPosition(positionTrouvee,erreurPosition);
+			}
+		
+			function detecterNavigateur() {
+				var nom;
+				var version;
+				var nomcode;
+				var mineure;
+				var langue;
+				var plateforme;
+				var userAgent;
+				
+				nom = navigator.appName;
+				version = navigator.appVersion;
+				nomcode = navigator.appCodeName;
+				mineure = navigator.appMinorVersion;
+				langue = navigator.language;
+				plateforme = navigator.platform;
+				userAgent = navigator.userAgent;
+				
+				document.getElementById("navigateur").innerHTML = "Votre navigateur est : " + userAgent;
+			}
+		
+			function detecterGeoLoc() {
+				if (navigator.geolocation) {
+					document.getElementById("geoloc").innerHTML = "Super votre navigateur supporte la geolocalisation !";
+				} else {
+					document.getElementById("geoloc").innerHTML = "Dommage, pas de geolocalisation possible !";
+				}
+			}
+		
+			function test() {
+				detecterNavigateur();
+				detecterGeoLoc();
+			}
+		
+			window.onload = test;
+		</script>
+	</head>
+	<body>
+		<h1>HTML5 - Geolocalisation</h1>
+		<h2>Positionnement ponctuel</h2>
+		<p>On utilise la méthode "getCurrentPosition" de l'objet "geolocation", membre de l'objet "navigator", avec Javascript.
+		<p id="geoloc"></p>
+		<p id="navigateur"></p>
+		<h2>getCurrentPosition : 3 paramètres</h2>
+		<ul>
+			<li>une fonction de callback pour récupérer la position</li>
+			<li>une fonction de callback pour récupérer l'erreur</li>
+			<li>des options :
+				<ul>
+				<li>enableHighAccuracy:true (utilisation du GPS pour des coordonnées plus précises)</li>
+				<li>timeout:10000 (délai de réponse en millisecondes, par défaut : Infinity)</li>
+				<li>maximumAge:0 (durée de vie d'une coordonnée)</li>
+				</ul>
+			</li>	
+		</ul>
+		<input type="button" value="Appuyer pour rechercher la position avec options" onclick="recherchePositionOptions()" />
+		<br />
+		<div id="position">
+		<ul>
+			<li>Latitude (position.coords.latitude) : <span id="lat"></span></li>
+			<li>Longitude (position.coords.longitude) : <span id="long"></span></li>
+			<li>Précision (position.coords.accuracy) : <span id="prec"></span></li>
+			<li>Altitude (position.coords.altitude) : <span id="alti"></span></li>
+			<li>Précision de l'altitude (position.coords.altitudeAccuracy) : <span id="precalti"></span></li>
+			<li>Date/Heure (position.timestamp) : <span id="temps"></span></li>
+			<li>Direction (position.coords.heading) : <span id="dir"></span></li>
+			<li>Vitesse (position.coords.speed) : <span id="vit"></span></li>
+		</ul>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

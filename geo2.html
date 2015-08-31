@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>HTML5 - Geolocalisation</title>
+		<style>
+			#geoloc {
+				border: 2px solid black;
+				padding:10px;
+				color: green;
+			}
+		</style>
+		<script>
+			function detecterNavigateur() {
+				var nom;
+				var version;
+				var nomcode;
+				var mineure;
+				var langue;
+				var plateforme;
+				var userAgent;
+				
+				nom = navigator.appName;
+				version = navigator.appVersion;
+				nomcode = navigator.appCodeName;
+				mineure = navigator.appMinorVersion;
+				langue = navigator.language;
+				plateforme = navigator.platform;
+				userAgent = navigator.userAgent;
+				
+				document.getElementById("navigateur").innerHTML = "Votre navigateur est : " + nom + " - version : " + version + " - nomcode : " + nomcode + " - plateforme : " + plateforme + " - langue : " + langue + " - [" + mineure + "]" + " - UserAgent : " + userAgent;
+			}
+		
+			function detecterGeoLoc() {
+				if (navigator.geolocation) {
+					document.getElementById("geoloc").innerHTML = "Super votre navigateur supporte la geolocalisation !";
+				} else {
+					document.getElementById("geoloc").innerHTML = "Dommage, pas de geolocalisation possible !";
+				}
+			}
+		
+			function test() {
+				detecterNavigateur();
+				detecterGeoLoc();
+			}
+		
+			window.onload = test;
+		</script>
+	</head>
+	<body>
+		<h1>HTML5 - Geolocalisation</h1>
+		<h2>Comment savoir si le navigateur supporte la géolocalisation ?</h2>
+		<p>On doit tester l'objet "geolocation", membre de l'objet "navigator", avec Javascript.
+		<p id="geoloc"></p>
+		<p id="navigateur"></p>
+	</body>
+</html>

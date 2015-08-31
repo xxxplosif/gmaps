@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Google Maps API V3</title>
+		<style>
+			#carte {
+				width:600px;
+				height:400px;
+			}
+		</style>
+		<!-- Etape 1 : inclure dans le head, l'API Google Maps V3 -->
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				/* Placer ici le code servant à créer la carte */
+				
+				// Etape 2 : donner les coordonnées du point visé
+				//var maLatitudeLongitude = new google.maps.LatLng(40.758637,-73.985388); // New York
+				var cf2mLatitudeLongitude = new google.maps.LatLng(50.825540,4.338905); // CF2m
+				
+				
+				// Etape 3 : définir les options de la carte
+				var mesOptions = {
+					zoom:16,
+					center: cf2mLatitudeLongitude,
+					/* mapTypeId peut prendre 4 valeurs :
+						google.maps.MapTypeId.ROADMAP : carte routière
+						google.maps.MapTypeId.SATELLITE : vue aérienne (satellite)
+						google.maps.MapTypeId.HYBRID : carte routière + vue aérienne
+						google.maps.MapTypeId.TERRAIN : vue du relief
+					*/
+					mapTypeId: google.maps.MapTypeId.TERRAIN,
+					mapTypeControlOptions : {
+						mapTypeIds : [google.maps.MapTypeId.ROADMAP,google.maps.MapTypeId.SATELLITE],
+						/* style peut prendre 3 valeurs :
+							google.maps.MapTypeControlStyle.HORIZONTAL_BAR
+							google.maps.MapTypeControlStyle.DROPDOWN_MENU
+							google.maps.MapTypeControlStyle.DEFAULT
+						*/
+						style : google.maps.MapTypeControlStyle.DROPDOWN_MENU 
+						}
+				};
+				
+				// Etape 4 : Créer la carte et la mettre dans le conteneur
+				var maCarte = new google.maps.Map(document.getElementById('carte'), mesOptions);
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Google Maps API V3</h1>
+		<h2>Etapes</h2>
+		<p>1. ajouter dans le head, l'API Google Maps V3, qui se trouve à l'adresse : <strong>http://maps.google.com/maps/api/js?sensor=false</strong> avec le paramètre sensor=true si on utilise un GPS, sensor=false autrement</p>
+		<p>2. donner les coordonnées géographiques (manuellement ou par géolocalisation HTML5) en utilisant l'objet <strong>google.maps.LatLng(latitude,longitude)</strong>.</p>
+		<p>3. définir les options de la carte à afficher (zoom de la carte, centre de la carte, type de carte) au moyen d'un tableau statique contenant les valeurs suivantes :<br />
+		<ul>
+			<li>zoom : une valeur en 0 (Terre entière) et 19 (niveau rue)</li>
+			<li>center : les coordonnées du centre de la carte via un objet LatLng</li>
+			<li>mapTypeId : le type de carte (4 valeurs possibles)</li>
+		</ul>
+		</p>
+		<p>4. Créer la carte avec l'objet <strong>google.maps.Map(conteneur, options)</strong> en utilisant les coordonnées et les options définies précédemment et on va la placer dans un conteneur (div ci-dessous).</p>
+		<div id="carte">
+		</div>
+	</body>
+</html>

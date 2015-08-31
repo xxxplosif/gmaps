@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Google Maps API V3</title>
+		<style>
+			#carte {
+				width:600px;
+				height:400px;
+			}
+		</style>
+		<!-- Etape 1 : inclure dans le head, l'API Google Maps V3 -->
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				/* Placer ici le code servant à créer la carte */
+				
+				var cf2mLatitudeLongitude = new google.maps.LatLng(50.825540,4.338905); // CF2m
+				var autrePoint = new google.maps.LatLng(50.83,4.35);
+
+				
+				var laCarte;	// la carte qui est affichée avec le marqueur
+				
+				function afficheCarte(zoomCarte, centreCarte, typeCarte, idCarte) {
+					// définir les options de la carte
+					var mesOptions = {
+						zoom:zoomCarte,
+						center: centreCarte,
+						mapTypeId: typeCarte
+					};
+					
+					// mettre la carte dans son conteneur
+					var maCarte = new google.maps.Map(
+						document.getElementById(idCarte),
+						mesOptions);
+					
+					// retourne l'objet Map qui vient d'être créé et qui sera utilisé par le marqueur
+					return maCarte;
+				}
+				
+				function afficheMarqueur(centreCarte, objetCarte, texteCarte) {
+					var monMarqueur = new google.maps.Marker({
+						position : centreCarte,
+						map : objetCarte,
+						title : texteCarte
+					});
+				}
+
+				function afficheMarqueurPersonnalise(centreCarte, objetCarte, texteCarte, iconeMarqueur) {
+					var monMarqueur = new google.maps.Marker({
+						position : centreCarte,
+						map : objetCarte,
+						title : texteCarte,
+						icon: iconeMarqueur
+					});
+				}
+
+				
+				var geocodeurOptions = {
+					address : "3, Avenue du Comté de Jette 1090 Bruxelles",
+					region : "BE"
+				};
+				
+				function geocodeurResultats(resultat, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						// la recherche a fonctionné
+						laCarte = afficheCarte(16, resultat[0].geometry.location, google.maps.MapTypeId.ROADMAP, "carte");
+						afficheMarqueur(resultat[0].geometry.location, laCarte, "geocode");
+						}
+				}
+				
+				var monGeocodeur = new google.maps.Geocoder();
+				monGeocodeur.geocode(geocodeurOptions, geocodeurResultats);
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Google Maps API V3</h1>
+		<h2>Geocodage</h2>
+		<p>Transformer une adresse postale en coordonnées GPS.</p>
+		<div id="carte">
+		</div>
+	</body>
+</html>
